@@ -142,27 +142,20 @@ def hit(deck, hand):
 
 
 # PROMPTS PLAYER TO HIT OR STAND
-def hit_or_stand(deck, hand):
+def hit_or_stand(deck,hand):
     global game_on
     answer = ''
-    while answer != 'hit' and answer != 'stand':
-        try:
-            input("Would you like to 'hit' or 'stand'?").lower()
-
-        except:
-            print("Please type 'hit' or 'stand'.")
-
-        else:
-            if answer == 'hit':
-                hit(deck, hand)
-                print("You've decided to 'hit'.")
-                print("\n" * 3)
-            else:
-                print("You've decided to 'stand'.")
-                print("\n" * 3)
-                print("\nNow it's Dealer's turn.")
-                game_on = False
-            break
+    while (answer != 'hit' and answer != 'stand'):
+        answer = input("Would you like to 'hit' or 'stand'?").lower()
+    if answer == 'hit':
+        hit(deck,hand)
+        print("You've decided to 'hit'.")
+        print("\n" * 3)
+    else:
+        print("You've decided to 'stand'.")
+        print("\n" * 3)
+        print("\nNow it's Dealer's turn.")
+        game_on = False
 
 
 # FUNCTION TO DISPLAY SOME CARDS
