@@ -18,14 +18,12 @@ You need to keep track of the player's total money.
 You need to alert the player of wins, losses, or busts, etc...
 '''
 
-
 import random
 import pdb
 
-
 # LIST THAT MAKES UP A FULL DECK OF CARDS
 # PYTHON SUIT SYMBOLS: CLUBS = \u2663, SPADES = \u2660, DIAMONDS = \u2666, HEARTS = \u2665
-suits_list = ("\u2663, \u2660, \u2666, \u2665")
+suits_list = ('\u2663', '\u2660', '\u2666', '\u2665')
 values_list = {'Two': 2, 'Three': 3, 'Four': 4, 'Five': 5, 'Six': 6, 'Seven': 7, 'Eight': 8, 'Nine': 9, 'Ten': 10,
                'Jack': 10, 'Queen': 10, 'King': 10, 'Ace': 11}
 ranks_list = ('Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Jack', 'Queen', 'King', 'Ace')
@@ -33,6 +31,7 @@ ranks_list = ('Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', '
 # BOOLEAN VALUES THAT CONTROL WHILE LOOPS
 game_on = True
 hide_dealer_card = True
+
 
 # CREATING A SINGLE CARD TYPE
 class CardType:
@@ -65,9 +64,13 @@ class Deck:
     def __str__(self):
         deck_comp = ''
         for card in self.all_cards:
-            deck_comp += '\n '+card.__str__() # add each Card object's print string
+            deck_comp += '\n ' + card.__str__()  # add each Card object's print string
         return 'The deck has:' + deck_comp
 
+
+# # Debugging
+# test_deck = Deck()
+# print(test_deck)
 
 # CREATING THE HAND, THIS DEALS WITH HOLDING THE CARDS DEALT FROM THE DECK AND CALCULATING THE VALUES.
 class Hand:
@@ -78,12 +81,30 @@ class Hand:
 
     def add_card(self, card):
         self.cards.append(card)
+        self.value += values_list[card.rank]
 
+        # Track aces
+        if card.rank == 'Ace':
+            self.aces += 1
+
+    # This will change the value of the ace to 1 if the total value reaches 21.
     def adjust_for_ace(self):
-        if self.value > 21:
-            self.aces == 1
-        else:
-            self.aces = 11
+        while self.values > 21 and self.aces:
+            self.value -= 10
+            self.aces -= 1
+
+
+# # Debugging
+# test_deck = Deck()
+# test_deck.shuffle_deck()
+#
+# # PLAYER
+# test_player = Hand()
+# # deal 1 card from the deck CardType(suit, rank)
+# pulled_card = test_deck.deal_one()
+# print(pulled_card)
+# test_player.add_card(pulled_card)
+# print(test_player.value)
 
 
 # CREATING THE CHIPS CLASS THAT WILL HANDLE PLAYER'S CHIPS, BETS, AND ONGOING WINNINGS.
@@ -95,7 +116,7 @@ class Chips:
 
     def win_bet(self, bet):
         self.total += self.bet
-        print(f"You just win {self.bet} chips!")
+        print(f"You just won {self.bet} chips!")
 
     def lose_bet(self):
         self.total -= self.bet
@@ -103,24 +124,37 @@ class Chips:
 
 
 # TAKING BETS
-def take_bet():
-    bet_amount = 0
+def take_bet(chips):
+    while True:
 
-    bet_amount = (int(input("How much would you like to bet?")))
-    if bet_amount > chips_in_hand.total:
-        print(int(input("You don't have that many chips, how much would you like to bet?")))
-    else:
-        print(f"You've bet {bet_amount} chips!")
+        try:
+            chips.bet = int(input("How many chips would you like to bet?"))
 
+        except:
+            print("Please input numbers only")
+
+        else:
+            if chips.bet > chips.total:
+                print(
+                    f"You don't have that many chips, how much would you like to bet? You currently have {chips.total} chips.")
+            else:
+                print(f"You've bet {chips.bet} chips!")
+                break
+
+
+# # Debugging
+# chips_in_hand = Chips()
+# print(chips_in_hand.total)
+# take_bet(chips_in_hand)
 
 # HIT
-def hit(deck,hand):
+def hit(deck, hand):
     hand.add_card(deck.deal_one())
     hand.adjust_for_ace()
 
 
 # PROMPTS PLAYER TO HIT OR STAND
-def hit_or_stand(deck,hand):
+def hit_or_stand(deck, hand):
     answer = ''
     while answer != 'hit' or answer != 'stand':
         input("Would you like to 'hit' or 'stand'?").lower()
@@ -133,11 +167,13 @@ def hit_or_stand(deck,hand):
 
 
 # FUNCTION TO DISPLAY CARDS
-def show_some(player,dealer):
+def show_some(player, dealer):
     print(player.hand)
     while hide_dealer_card:
         print(dealer.hand[:-1])
-def show_all(player,dealer):
+
+
+def show_all(player, dealer):
     print(player.hand)
     print(dealer.hand)
 
