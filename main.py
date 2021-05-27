@@ -157,25 +157,45 @@ def hit(deck, hand):
 def hit_or_stand(deck, hand):
     answer = ''
     while answer != 'hit' or answer != 'stand':
-        input("Would you like to 'hit' or 'stand'?").lower()
-    if answer == 'hit':
-        hit()
-        print("You've decided to 'hit'")
-    else:
-        game_on = false
-        print("You've decided to 'stand'")
+        try:
+            input("Would you like to 'hit' or 'stand'?").lower()
+
+        except:
+            print("Please type 'hit' or 'stand'.")
+
+        else:
+            if answer == 'hit':
+                hit(deck, hand)
+                print("You've decided to 'hit'.")
+            else:
+                print("You've decided to 'stand'. \nNow it's Dealer's turn.")
+                game_on = false
+        break
 
 
 # FUNCTION TO DISPLAY CARDS
 def show_some(player, dealer):
-    print(player.hand)
-    while hide_dealer_card:
-        print(dealer.hand[:-1])
+    # Shows only ONE of the dealer's cards and all of player's cards.
+    print("\n Dealer's Hand: ")
+    print("First card is hidden!")
+    print(dealer.cards[1])
+
+    print("\n Player's Hand: ")
+    for card in player.cards:
+        print(card)
 
 
 def show_all(player, dealer):
-    print(player.hand)
-    print(dealer.hand)
+    # Shows all of both dealer and player's cards.
+    # sums up the values.
+    print("\n Dealer's Hand: ")
+    for card in dealer.cards:
+        print(card)
+    print(f"Value of Dealer's hand is: {dealer.value}")
+    print("\n Player's Hand: ")
+    for card in player.cards:
+        print(card)
+    print(f"Value of Player's hand is: {player.value}")
 
 
 cards_in_hand = Hand()
