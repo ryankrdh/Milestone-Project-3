@@ -63,7 +63,10 @@ class Deck:
         return self.all_cards.pop()
 
     def __str__(self):
-        return f"There are {len(self.all_cards)} cards in the deck."
+        deck_comp = ''
+        for card in self.all_cards:
+            deck_comp += '\n '+card.__str__() # add each Card object's print string
+        return 'The deck has:' + deck_comp
 
 
 # CREATING THE HAND, THIS DEALS WITH HOLDING THE CARDS DEALT FROM THE DECK AND CALCULATING THE VALUES.
