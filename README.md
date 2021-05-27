@@ -11,7 +11,7 @@ To practice what I know and to try and impliment a player bank(score) system in 
 
 ## How to use
 
-Game will have only have one player against a dealer.
+Game will have only one player against a dealer.
 
 Card rank are as follows:
 
